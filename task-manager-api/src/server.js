@@ -1,6 +1,5 @@
 import sequelize from "./config/db.js";
 import app from "./app.js";
-import cors from "cors";
 
 const port = 5000;
 

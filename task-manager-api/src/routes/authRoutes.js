@@ -6,6 +6,6 @@ const router = express.Router();
 router.post("/login", login);
 router.post("/register", register);
 
-console.log("authRoutes working");
+// console.log("authRoutes working");
 
 export default router;

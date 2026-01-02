@@ -1,6 +1,5 @@
 import express from "express";
 import {
-  getProject,
   getProjectByUser,
   addProject,
   editProject,
@@ -10,8 +9,9 @@ import checkAuth from "../middlewares/authCheck.js";
 
 const router = express.Router();
 
-router.get("/getProject", checkAuth, getProject);
-router.get("/getProjectByUser/:id", checkAuth, getProjectByUser);
+// only for testing, no checkauth
+
+router.get("/getProjectByUser/", checkAuth, getProjectByUser);
 
 router.post("/addProject", checkAuth, addProject);
 router.put("/editProject/:id", checkAuth, editProject);

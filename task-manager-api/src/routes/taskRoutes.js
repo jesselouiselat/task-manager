@@ -1,20 +1,22 @@
 import express from "express";
 import {
-  getTask,
-  getTaskByUser,
+  getTaskByProject,
   addTask,
   editTask,
+  toggleTaskStatus,
   deleteTask,
 } from "../controllers/taskController.js";
 import checkAuth from "../middlewares/authCheck.js";
 
 const router = express.Router();
 
-router.get("/getTask", checkAuth, getTask);
-router.get("/getTaskByUser/:id", checkAuth, getTaskByUser);
+router.get("/getTaskByProject/:projectId", checkAuth, getTaskByProject);
 
 router.post("/addTask", checkAuth, addTask);
-router.put("/editTask/:id", checkAuth, editTask);
-router.delete("/deleteTask/:id", checkAuth, deleteTask);
+
+router.put("/editTask/:taskId", checkAuth, editTask);
+router.patch("/editTaskStatus/:taskId", checkAuth, toggleTaskStatus);
+
+router.delete("/deleteTask/:taskId", checkAuth, deleteTask);
 
 export default router;

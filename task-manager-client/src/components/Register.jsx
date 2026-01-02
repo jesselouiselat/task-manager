@@ -2,39 +2,41 @@ import { useState } from "react";
 import axiosInstance from "../api/AxiosInstance.js";
 import { useNavigate } from "react-router-dom";
 
-function Login() {
+function Register() {
   const navigate = useNavigate();
-  const [logInDetails, setLogInDetails] = useState({
+  const [registerDetails, setregisterDetails] = useState({
     email: "",
     password: "",
   });
 
-  function handleChange(event) {
+  const handleChange = async (event) => {
     const { name, value } = event.target;
-    setLogInDetails((prev) => ({
+    setregisterDetails((prev) => ({
       ...prev,
       [name]: value,
     }));
-  }
+  };
 
-  async function handleSubmit(event) {
+  const handleSubmit = async (event) => {
+    console.log("working login component");
+
     event.preventDefault();
 
     try {
       const res = await axiosInstance.post(
-        "/task-manager/auth/login",
-        logInDetails
+        "/task-manager/auth/register",
+        registerDetails
       );
-
       const token = res.data.token;
       localStorage.setItem("token", token);
-
       navigate("/projects");
+
+      console.log(localStorage.getItem("token"));
     } catch (error) {
-      console.error(error);
+      console.error(error.message);
       navigate("/error");
     }
-  }
+  };
 
   return (
     <section id="login" className="h-full">
@@ -46,7 +48,7 @@ function Login() {
             className="mx-auto h-10 w-auto"
           />
           <h2 className="mt-10 text-center text-2xl/9 font-bold tracking-tight text-white">
-            Log in to your account
+            Register
           </h2>
         </div>
 
@@ -104,7 +106,7 @@ function Login() {
                 type="submit"
                 className="flex w-full justify-center rounded-md bg-indigo-500 px-3 py-1.5 text-sm/6 font-semibold text-white hover:bg-indigo-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
               >
-                Log in
+                Sign up
               </button>
             </div>
           </form>
@@ -114,4 +116,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default Register;

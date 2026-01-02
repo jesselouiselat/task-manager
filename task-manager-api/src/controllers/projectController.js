@@ -1,20 +1,14 @@
 import Project from "../models/Project.js";
+import Task from "../models/Task.js";
 import { findProjectOrFail, checkOwnership } from "../utils/projectUtils.js";
-
-export const getProject = async (req, res) => {
-  try {
-    const allProjects = await Project.findAll();
-    res.json(allProjects);
-  } catch (error) {
-    res.status(500).json({ message: "Server error", error: error.message });
-  }
-};
 
 export const getProjectByUser = async (req, res) => {
   try {
     const userId = req.user.id;
-    const allProjects = await Project.findAll({ where: { userId } });
-    console.log(allProjects);
+    const allProjects = await Project.findAll({
+      where: { userId },
+      order: [["createdAt", "DESC"]],
+    });
 
     res.json(allProjects);
   } catch (error) {
@@ -27,12 +21,10 @@ export const addProject = async (req, res) => {
     const { title } = req.body;
     const userId = req.user.id;
 
-    const addProject = await Project.create({ title: title, userId: userId });
+    const addProject = await Project.create({ title, userId });
     await addProject.save();
-    res.status(201).json({
-      message: `${title} is added succesfully`,
-      title: addProject.title,
-    });
+
+    res.status(201).json(addProject);
   } catch (error) {
     res.status(500).json({ message: "Server error", error: error.message });
   }
@@ -68,11 +60,13 @@ export const deleteProject = async (req, res) => {
     const userId = req.user.id;
 
     const project = await findProjectOrFail(id, res);
+
     if (!project) return;
 
     if (!checkOwnership(project, userId, res)) return;
 
-    await project.destroy();
+    await Task.destroy({ where: { projectId: id } });
+    await Project.destroy({ where: { id: id } });
 
     res.status(200).json({ message: "Project deleted successfully." });
   } catch (error) {

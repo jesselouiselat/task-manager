@@ -12,7 +12,7 @@ Project.belongsTo(User, {
 });
 
 Project.hasMany(Task, {
-  foreignKey: "projectKey",
+  foreignKey: "projectId",
   onDelete: "CASCADE",
 });
 
