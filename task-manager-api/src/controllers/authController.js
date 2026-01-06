@@ -8,6 +8,7 @@ const saltRounds = 10;
 export const register = async (req, res) => {
   try {
     const { email, password } = req.body;
+
     const hashedPassword = await bcrypt.hash(password, saltRounds);
 
     const [newUser, created] = await User.findOrCreate({
@@ -22,6 +23,11 @@ export const register = async (req, res) => {
       return res
         .status(400)
         .json({ message: "Email already registered. Please Sign in" });
+
+    if (password.length < 8)
+      return res
+        .status(400)
+        .json({ message: "Password must be at least 8 characters!" });
 
     const token = jwt.sign(
       { id: newUser.id, email: newUser.email },

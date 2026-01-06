@@ -16,6 +16,19 @@ export const getTaskByProject = async (req, res) => {
   }
 };
 
+export const getTaskByUser = async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const allTasksByUser = await Task.findAll({
+      where: { userId, userId },
+      order: [["createdAt", "ASC"]],
+    });
+    res.json(allTasksByUser);
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+};
+
 export const addTask = async (req, res) => {
   try {
     const { content, projectId } = req.body;

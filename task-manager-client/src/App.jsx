@@ -6,6 +6,7 @@ import Projects from "./components/Projects.jsx";
 import Error from "./components/Error.jsx";
 import Home from "./components/Home.jsx";
 import Dashboard from "./components/Dashboard.jsx";
+import ProtectedRoute from "./components/ProtectedRoute.jsx";
 
 import "./index.css";
 
@@ -15,10 +16,30 @@ function App() {
       <Route path="/" element={<Home />} />
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
-      <Route path="/tasks" element={<Tasks />} />
-      <Route path="/error" element={<Error />} />
-      <Route path="/projects" element={<Projects />} />
-      <Route path="/dashboard" element={<Dashboard />} />
+      <Route
+        path="/error"
+        element={
+          <ProtectedRoute>
+            <Error />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/projects"
+        element={
+          <ProtectedRoute>
+            <Projects />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/dashboard"
+        element={
+          <ProtectedRoute>
+            <Dashboard />
+          </ProtectedRoute>
+        }
+      />
     </Routes>
   );
 }

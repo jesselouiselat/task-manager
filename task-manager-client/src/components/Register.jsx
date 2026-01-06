@@ -8,6 +8,7 @@ function Register() {
     email: "",
     password: "",
   });
+  const [errorMessage, setErrorMessage] = useState("");
 
   const handleChange = async (event) => {
     const { name, value } = event.target;
@@ -18,8 +19,6 @@ function Register() {
   };
 
   const handleSubmit = async (event) => {
-    console.log("working login component");
-
     event.preventDefault();
 
     try {
@@ -33,8 +32,13 @@ function Register() {
 
       console.log(localStorage.getItem("token"));
     } catch (error) {
-      console.error(error.message);
-      navigate("/error");
+      if (error.response) {
+        console.log(error.response.data.message);
+
+        setErrorMessage(error.response.data.message);
+      }
+
+      console.error(error);
     }
   };
 
@@ -100,6 +104,9 @@ function Register() {
                 />
               </div>
             </div>
+            {errorMessage && (
+              <p className="text-red-500 text-sm mt-2">{errorMessage}</p>
+            )}
 
             <div>
               <button
@@ -110,6 +117,13 @@ function Register() {
               </button>
             </div>
           </form>
+          <hr className="border-gray-700 mt-5" />
+          <a
+            href="/login"
+            className="flex justify-center font-semibold mt-5 text-sm bg-gray-800 text-white hover:bg-gray-700 rounded-md px-3 py-1.5 "
+          >
+            Log in
+          </a>
         </div>
       </div>
     </section>

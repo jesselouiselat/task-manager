@@ -1,6 +1,7 @@
 import express from "express";
 import {
   getTaskByProject,
+  getTaskByUser,
   addTask,
   editTask,
   toggleTaskStatus,
@@ -11,6 +12,7 @@ import checkAuth from "../middlewares/authCheck.js";
 const router = express.Router();
 
 router.get("/getTaskByProject/:projectId", checkAuth, getTaskByProject);
+router.get("/getTaskByUser/", checkAuth, getTaskByUser);
 
 router.post("/addTask", checkAuth, addTask);
 

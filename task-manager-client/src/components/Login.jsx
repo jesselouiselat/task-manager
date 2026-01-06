@@ -8,6 +8,7 @@ function Login() {
     email: "",
     password: "",
   });
+  const [errorMessage, setErrorMessage] = useState("");
 
   function handleChange(event) {
     const { name, value } = event.target;
@@ -15,6 +16,7 @@ function Login() {
       ...prev,
       [name]: value,
     }));
+    setErrorMessage("");
   }
 
   async function handleSubmit(event) {
@@ -31,8 +33,13 @@ function Login() {
 
       navigate("/projects");
     } catch (error) {
+      if (error.response) {
+        console.log(error.response.data.message);
+
+        setErrorMessage(error.response.data.message);
+      }
+
       console.error(error);
-      navigate("/error");
     }
   }
 
@@ -99,6 +106,10 @@ function Login() {
               </div>
             </div>
 
+            {errorMessage && (
+              <p className="text-red-500 text-sm mt-2">{errorMessage}</p>
+            )}
+
             <div>
               <button
                 type="submit"
@@ -108,6 +119,13 @@ function Login() {
               </button>
             </div>
           </form>
+          <hr className="border-gray-700 mt-5" />
+          <a
+            href="/register"
+            className="flex justify-center font-semibold mt-5 text-sm  bg-gray-800 text-white hover:bg-gray-700 rounded-md px-3 py-1.5 "
+          >
+            Create New Account
+          </a>
         </div>
       </div>
     </section>
