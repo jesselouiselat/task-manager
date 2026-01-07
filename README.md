@@ -6,6 +6,7 @@ A full-stack Task Manager application allowing users to register/login, create p
 
 ### Table of Contents
 
+0. [Screenshots](#screenshots)
 1. [Features](#features)
 2. [Tech Stack](#tech-stack)
 3. [Project Structure](#project-structure)
@@ -17,6 +18,13 @@ A full-stack Task Manager application allowing users to register/login, create p
 9. [License](#license)
 
 ---
+
+### Screenshots
+
+![Home](./screenshots/screenshot%201.png)
+![Login](./screenshots/screenshot%203.png)
+![Dashboard](./screenshots/screenshot%204.png)
+![ProjectPage](./screenshots/screenshot%205.png)
 
 ### Features
 
