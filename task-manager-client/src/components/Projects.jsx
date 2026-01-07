@@ -43,7 +43,7 @@ export default function Projects() {
     console.log(projectId);
 
     try {
-      const data = await projectServices.deleteTask(projectId);
+      const data = await projectServices.deleteProject(projectId);
       setProjects((prevProjects) =>
         prevProjects.filter((project) => project.id !== projectId)
       );
@@ -96,7 +96,7 @@ export default function Projects() {
                 </>
               ) : (
                 <span
-                  className="text-5xl font-semibold tracking-tight text-white"
+                  className=" text-center justify-center text-5xl font-semibold tracking-tight text-white"
                   onClick={() => {
                     setEditingProjectId(project.id);
                     setTitle(project.title);

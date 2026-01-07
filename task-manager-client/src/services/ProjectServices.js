@@ -13,8 +13,8 @@ class ProjectServices {
       this.projects = res.data;
       return res.data;
     } catch (error) {
-      return error.message;
       console.error(error.message);
+      return error.message;
     }
   }
 
@@ -31,7 +31,7 @@ class ProjectServices {
     }
   }
 
-  async deleteTask(projectId) {
+  async deleteProject(projectId) {
     try {
       const res = await axiosInstance.delete(
         `/task-manager/project/deleteProject/${projectId}`

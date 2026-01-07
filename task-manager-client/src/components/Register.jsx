@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axiosInstance from "../api/AxiosInstance.js";
 import { useNavigate } from "react-router-dom";
 
@@ -9,6 +9,13 @@ function Register() {
     password: "",
   });
   const [errorMessage, setErrorMessage] = useState("");
+
+  const token = localStorage.getItem("token");
+  useEffect(() => {
+    if (token) {
+      navigate("/projects");
+    }
+  }, [token, navigate]);
 
   const handleChange = async (event) => {
     const { name, value } = event.target;

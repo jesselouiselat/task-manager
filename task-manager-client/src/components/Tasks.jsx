@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import axiosInstance from "../api/AxiosInstance";
 import TaskForm from "./TaskForm.jsx";
+import TaskServices from "../services/TaskServices.js";
+import ProgressBar from "./ProgressBar.jsx";
 
 export default function Tasks({ projectId }) {
   const [tasks, setTasks] = useState([]);
@@ -8,12 +10,12 @@ export default function Tasks({ projectId }) {
   const [editingTaskId, setEditingTaskId] = useState(null);
   const [taskToEdit, setTaskToEdit] = useState("");
 
+  const taskServices = new TaskServices();
+
   useEffect(() => {
     const fetchTasksByUser = async () => {
-      const res = await axiosInstance.get(
-        `/task-manager/task/getTaskByProject/${projectId}`
-      );
-      setTasks(res.data);
+      const res = await taskServices.fetchTasksByUser(projectId);
+      setTasks(res);
     };
     if (projectId) fetchTasksByUser();
   }, [projectId]);
@@ -21,10 +23,7 @@ export default function Tasks({ projectId }) {
   const updateTask = async (event, taskId) => {
     event.preventDefault();
     try {
-      const res = await axiosInstance.put(
-        `/task-manager/task/editTask/${taskId}`,
-        { content: taskToEdit }
-      );
+      const res = await taskServices.updateTask(taskId, taskToEdit);
       setTasks((prevTasks) =>
         prevTasks.map((task) =>
           task.id === taskId ? { ...task, content: taskToEdit } : task
@@ -40,9 +39,7 @@ export default function Tasks({ projectId }) {
 
   const deleteTask = async (taskId) => {
     try {
-      const res = await axiosInstance.delete(
-        `/task-manager/task/deleteTask/${taskId}`
-      );
+      const res = await taskServices.deleteTask(taskId);
       setTasks((prevTasks) => prevTasks.filter((task) => task.id !== taskId));
       setEditingTaskId(null);
     } catch (error) {
@@ -65,23 +62,9 @@ export default function Tasks({ projectId }) {
     }
   };
 
-  const totalTasks = tasks.length;
-  const completedTasks = tasks.filter((task) => task.isDone).length;
-
-  const progress = totalTasks === 0 ? 0 : (completedTasks / totalTasks) * 100;
-
   return (
     <div>
-      <div className="w-full bg-gray-500 h-4 mt-4 rounded-2xl">
-        <div
-          className="bg-green-500 h-4 rounded-2xl "
-          style={{ width: `${progress}%` }}
-        ></div>
-      </div>
-      <p className="mt-2 text-white opacity-40">
-        {completedTasks} / {totalTasks} tasks done
-      </p>
-      <p className="mt-2 text-white opacity-40">{Math.round(progress)}%</p>
+      <ProgressBar worksArray={tasks} label="Tasks" />
 
       {tasks.map((task) => (
         <ul

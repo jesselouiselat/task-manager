@@ -35,10 +35,7 @@ export default function NavBar() {
     { name: "Dashboard", href: "/dashboard", current: true },
     { name: "Projects", href: "/projects", current: false },
   ];
-  const userNavigation = [
-    { name: "Profile", href: "/profile" },
-    { name: "Log out", onClick: handleLogOut },
-  ];
+  const userNavigation = [{ name: "Log out", onClick: handleLogOut }];
 
   function classNames(...classes) {
     return classes.filter(Boolean).join(" ");
@@ -79,18 +76,22 @@ export default function NavBar() {
                   </div>
                 </div>
               </div>
+              <h1 className="hidden md:block text-gray-200">
+                Hi {user.email}!
+              </h1>
               <div className="hidden md:block">
                 <div className="ml-4 flex items-center md:ml-6">
                   {userNavigation.map((item) => (
-                    <button
+                    <a
                       key={item.name}
+                      href={item.href}
                       onClick={item.onClick}
                       className={classNames(
                         "rounded-md px-4 py-2 text-sm text-gray-400 hover:bg-white/5 hover:text-white"
                       )}
                     >
                       {item.name}
-                    </button>
+                    </a>
                   ))}
                 </div>
               </div>
@@ -114,6 +115,9 @@ export default function NavBar() {
 
           <DisclosurePanel className="md:hidden">
             <div className="space-y-1 px-2 pt-2 pb-3 sm:px-3">
+              <h1 className=" flex m-auto justify-center text-gray-200">
+                Hi {user.email}!
+              </h1>
               {navigation.map((item) => (
                 <DisclosureButton
                   key={item.name}
@@ -134,15 +138,16 @@ export default function NavBar() {
             <div className="border-t border-white/10 pt-3 pb-3">
               <div className="mt-3 space-y-1 px-2">
                 {userNavigation.map((item) => (
-                  <button
+                  <a
                     key={item.name}
+                    href={item.href}
                     onClick={item.onClick}
                     className={classNames(
                       "rounded-md px-4 py-2 text-sm text-gray-400 hover:bg-white/5 hover:text-white"
                     )}
                   >
                     {item.name}
-                  </button>
+                  </a>
                 ))}
               </div>
             </div>
