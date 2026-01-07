@@ -1,5 +1,8 @@
 import jwt from "jsonwebtoken";
-const jwtSecretKey = "TaskManagerKey2058";
+import dotenv from "dotenv";
+dotenv.config();
+
+const jwtSecretKey = process.env.JWT_SECRET_KEY;
 
 const checkAuth = async (req, res, next) => {
   const authHeader = req.headers.authorization;
